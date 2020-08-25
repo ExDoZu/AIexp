@@ -1,7 +1,7 @@
 #include"mymatrix.h"
 
 
-double** mymatrix::transpose(double** old_matrix, int old_width, int old_height)
+double** aizuev::transpose(double** old_matrix, int old_width, int old_height)
 {
 	double** new_matrix = new  double* [old_width];
 	for (int i = 0; i < old_width; i++)
@@ -21,19 +21,19 @@ double** mymatrix::transpose(double** old_matrix, int old_width, int old_height)
 	return new_matrix;
 }
 
-void mymatrix::print_matrix(double** matrix, int width, int height)
+void aizuev::print_matrix(double** matrix, int width, int height)
 {
 	for (int i = 0; i < height; i++)
 	{
 		for (int j = 0; j < width; j++)
 		{
-			std::cout << matrix[i][j] << ' ';
+			std::cout << matrix[i][j] << '\t';
 		}
 		std::cout << std::endl;
 	}
 }
 
-double** mymatrix::create_matrix(int width, int height)
+double** aizuev::create_matrix(int width, int height)
 {
 	double** new_matrix = new  double* [height];
 	for (int i = 0; i < height; i++)
@@ -43,7 +43,7 @@ double** mymatrix::create_matrix(int width, int height)
 	return new_matrix;
 }
 
-double** mymatrix::create_matrix(int width, int height, double default_value)
+double** aizuev::create_matrix(int width, int height, double default_value)
 {
 	double** new_matrix = new  double* [height];
 	for (int i = 0; i < height; i++)
@@ -57,7 +57,16 @@ double** mymatrix::create_matrix(int width, int height, double default_value)
 	return new_matrix;
 }
 
-double** mymatrix::matrix_from_file(std::string path, int& get_width, int& get_height)
+void aizuev::delete_matrix(double** matrix, int height)
+{
+	for (int i = 0; i < height; i++)
+	{
+		delete[]matrix[i];
+	}
+	delete[]matrix;
+}
+
+double** aizuev::matrix_from_file(std::string path, int& get_width, int& get_height)
 {
 
 	std::fstream fs;
