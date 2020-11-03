@@ -23,14 +23,21 @@
     <ClCompile Include="clustering.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mymatrix.cpp" />
+    <ClCompile Include="Network.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aiutils.h" />
     <ClInclude Include="clustering.h" />
     <ClInclude Include="mymatrix.h" />
+    <ClInclude Include="Network.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="DOC.txt" />
     <Text Include="input_matrix.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="newfile.zai" />
+    <None Include="weights.zai" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

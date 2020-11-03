@@ -27,6 +27,9 @@
     <ClCompile Include="aiutils.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Network.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="clustering.h">
@@ -38,10 +41,24 @@
     <ClInclude Include="aiutils.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="Network.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="input_matrix.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
+    <Text Include="DOC.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="weights.zai">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
+    <None Include="newfile.zai">
+      <Filter>Файлы ресурсов</Filter>
+    </None>
   </ItemGroup>
 </Project>
