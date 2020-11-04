@@ -1,7 +1,4 @@
-
 #include"mymatrix.h"
-#include"clustering.h"
-#include"aiutils.h"
 #include "Network.h"
 #include<iostream>
 
@@ -11,22 +8,25 @@ using namespace aizuev;
 int main()
 {
 	string PATH = "weights.zai";
-	
-	int* arr = new int[3];
-	arr[0] = 2;
-	arr[1] = 2;
-	arr[2] = 2;
+	int dwidth, dheight, awidth, aheight;
+
+	int numoflay = 4;
+	int* numofneu = new int[numoflay];
+	numofneu[0] = 3;
+	numofneu[1] = 3;
+	numofneu[2] = 3;
+	numofneu[3] = 1;
 
 	double* ans;
-	double data[] = { 1,3 };
-	Network ob(PATH, activation_functions::sigmoid);
-	ans = ob.getAnswer(data);
 
-	for (int i = 0; i < 2; i++)
-	{
-		cout << ans [i] << ' ';
-	}
-	
+	double** data = matrix_from_file("data.txt", dwidth, dheight);
+	double** answer = matrix_from_file("answers.txt", awidth, aheight);
+	//Network ob(numoflay, numofneu,  activation_functions::sigmoid,PATH);
+	Network ob(PATH, activation_functions::sigmoid);
+	ob.backpropagation(data, answer, dheight, 100000, 0.01);
+	ob.saveNetwork(PATH);
+	ob.answersOnTests(data, dheight);
+
 	return 0;
 
 }

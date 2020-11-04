@@ -32,11 +32,11 @@
     <ClInclude Include="Network.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="answers.txt" />
+    <Text Include="data.txt" />
     <Text Include="DOC.txt" />
-    <Text Include="input_matrix.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="newfile.zai" />
     <None Include="weights.zai" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

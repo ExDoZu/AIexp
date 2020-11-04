@@ -5,8 +5,8 @@
 #include <cassert>
 #include<random>
 #include<Windows.h>
-#include<cmath>
-#include"mymatrix.h"
+#include<iostream>
+#include<fstream>
 class Network
 {
 private:
@@ -25,8 +25,8 @@ public:
 
 	void saveNetwork(std::string newFilePath = "");
 	double* getAnswer(double* data);
-	void backpropagation(double** data, double** answers, int numberOfTests, int epochs, int batchSize, double learningRate);
-
+	void backpropagation(double** data, double** answers, int numberOfTests, int epochs, double learningRate);
+	void answersOnTests(double** data, int numberOfTests);
 
 };
 

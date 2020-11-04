@@ -46,18 +46,18 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="input_matrix.txt">
+    <Text Include="DOC.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
-    <Text Include="DOC.txt">
+    <Text Include="data.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="answers.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>
     <None Include="weights.zai">
-      <Filter>Файлы ресурсов</Filter>
-    </None>
-    <None Include="newfile.zai">
       <Filter>Файлы ресурсов</Filter>
     </None>
   </ItemGroup>
