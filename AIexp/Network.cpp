@@ -1,8 +1,9 @@
 #include "Network.h"
 
-Network::Network(std::string path, double(*activationFunc)(double))
+Network::Network(double(*activationFunc)(double), double(*activationFuncPrime)(double), std::string path)
 {
 	activationFunction = activationFunc;
+	activationFunctionPrime = activationFuncPrime;
 	if (path.size() > 4)
 	{
 		assert(path.substr(path.size() - 4, 4) == ".zai");
@@ -41,11 +42,14 @@ Network::Network(std::string path, double(*activationFunc)(double))
 
 }
 
-Network::Network(int numberOfLayers, int* numberOfNeurons, double(*activationFunc)(double), std::string newFilePath)
+Network::Network(int numberOfLayers, int* numberOfNeurons, double(*activationFunc)(double), double(*activationFuncPrime)(double), std::string newFilePath)
 {
 	this->numberOfLayers = numberOfLayers;
-	this->numberOfNeurons = numberOfNeurons;
+	this->numberOfNeurons = new int[numberOfLayers];
+	memcpy(this->numberOfNeurons, numberOfNeurons, numberOfLayers * sizeof(int));
+
 	activationFunction = activationFunc;
+	activationFunctionPrime = activationFuncPrime;
 
 	weights = new double** [numberOfLayers - 1];
 	biases = new double* [numberOfLayers - 1];
@@ -142,7 +146,7 @@ double* Network::getAnswer(double* data)
 {
 	double* deldata = new double[numberOfNeurons[0]];
 	double* nextdeldata;
-	//for (int i = 0; i < numberOfNeurons[0]; i++) deldata[i] = data[i];
+
 	memcpy(deldata, data, numberOfNeurons[0] * sizeof(double));
 
 	for (int i = 0; i < numberOfLayers - 1; i++)
@@ -180,56 +184,56 @@ void Network::backpropagation(double** data, double** answers, int numberOfTests
 	{
 		for (int t = 0; t < numberOfTests; t++)
 		{
-			/*std::cout << "Test " << t << ':' << std::endl<<"Data: ";
-			for (int i = 0; i < numberOfNeurons[0]; i++)std::cout << data[t][i] << ' ';
-			cout << endl<<"Answers: ";
-			for (int i = 0; i < numberOfNeurons[numberOfLayers-1]; i++)std::cout << answers[t][i] << ' ';
-			cout << endl;*/
-
 			memcpy(delresults[0], data[t], numberOfNeurons[0] * sizeof(double));
-
-			for (int i = 0; i < numberOfLayers - 1; i++)
+			for (int j = 0; j < numberOfNeurons[1]; j++)
+			{
+				delresults[1][j] = 0;
+				for (int k = 0; k < numberOfNeurons[0]; k++)
+				{
+					delresults[1][j] += delresults[0][k] * weights[0][j][k];
+				}
+				delresults[1][j] += biases[0][j];
+			}
+			for (int i = 1; i < numberOfLayers - 1; i++)
 			{
 				for (int j = 0; j < numberOfNeurons[i + 1]; j++)
 				{
 					delresults[i + 1][j] = 0;
 					for (int k = 0; k < numberOfNeurons[i]; k++)
 					{
-						delresults[i + 1][j] += delresults[i][k] * weights[i][j][k];
+						delresults[i + 1][j] += activationFunction(delresults[i][k]) * weights[i][j][k];
 					}
 					delresults[i + 1][j] += biases[i][j];
-					delresults[i + 1][j] = activationFunction(delresults[i + 1][j]);
 				}
 			}
 
-			for (int i = 0; i < numberOfNeurons[numberOfLayers - 1]; i++) delerrors[numberOfLayers - 2][i] = delresults[numberOfLayers - 1][i] - answers[t][i];
+			for (int i = 0; i < numberOfNeurons[numberOfLayers - 1]; i++)
+				delerrors[numberOfLayers - 2][i] = activationFunction(delresults[numberOfLayers - 1][i]) - answers[t][i];
 
 			for (int i = numberOfLayers - 3; i >= 0; i--)
 			{
-				for (int j = 0; j < numberOfNeurons[i+1]; j++)
+				for (int j = 0; j < numberOfNeurons[i + 1]; j++)
 				{
 					delerrors[i][j] = 0.0;
-					for (int k = 0; k < numberOfNeurons[i+2]; k++)
+					for (int k = 0; k < numberOfNeurons[i + 2]; k++)
 					{
-						delerrors[i][j] += delerrors[i + 1][k] * weights[i+1][k][j];
+						delerrors[i][j] += delerrors[i + 1][k] * weights[i + 1][k][j];
 					}
 				}
 			}
 
-			for (int i =0; i <numberOfLayers-1; i++)
+			for (int i = 0; i < numberOfLayers - 1; i++)
 			{
-				for (int j = 0; j < numberOfNeurons[i+1]; j++)
+				for (int j = 0; j < numberOfNeurons[i + 1]; j++)
 				{
 					for (int k = 0; k < numberOfNeurons[i]; k++)
 					{
-						weights[i][j][k] -= learningRate * delerrors[i][j]*delresults[i][k]*delresults[i+1][j]*(1.0- delresults[i + 1][j]);
+						weights[i][j][k] -= learningRate * delerrors[i][j] * activationFunction(delresults[i][k]) * activationFunctionPrime(delresults[i + 1][j]);
 					}
 				}
 				for (int j = 0; j < numberOfNeurons[i + 1]; j++)
 				{
-					
-					biases[i][j] -= learningRate * delerrors[i][j] * delresults[i + 1][j] * (1.0 - delresults[i + 1][j]);
-					
+					biases[i][j] -= learningRate * delerrors[i][j] * activationFunctionPrime(delresults[i + 1][j]);
 				}
 			}
 
@@ -239,7 +243,7 @@ void Network::backpropagation(double** data, double** answers, int numberOfTests
 	for (int i = 0; i < numberOfLayers; i++)delete[]delresults[i];
 	delete[]delresults;
 
-	for (int i = 0; i < numberOfLayers-1; i++)delete[]delerrors[i];
+	for (int i = 0; i < numberOfLayers - 1; i++)delete[]delerrors[i];
 	delete[]delerrors;
 }
 
@@ -254,7 +258,7 @@ void Network::answersOnTests(double** data, int numberOfTests)
 		{
 			std::cout << answer[i] << ' ';
 		}
-		std::cout << std::endl <<std::endl;
+		std::cout << std::endl;
 		delete[]answer;
 	}
 }
@@ -266,5 +270,5 @@ double activation_functions::sigmoid(double x)
 
 double activation_functions::sigmoid_prime(double x)
 {
-	return sigmoid(x) * (1 - sigmoid(x));
+	return sigmoid(x) * (1.0 - sigmoid(x));
 }

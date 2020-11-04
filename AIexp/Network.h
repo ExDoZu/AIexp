@@ -15,12 +15,12 @@ private:
 	int numberOfLayers;
 	int* numberOfNeurons;
 	double (*activationFunction)(double);
-
+	double (*activationFunctionPrime)(double);
 
 
 public:
-	Network(std::string path, double(*activationFunc)(double));
-	Network(int numberOfLayers, int* numberOfNeurons,  double(*activationFunc)(double), std::string newFileName = "");
+	Network(double(*activationFunc)(double), double(*activationFuncPrime)(double), std::string path);
+	Network(int numberOfLayers, int* numberOfNeurons, double(*activationFunc)(double), double(*activationFuncPrime)(double), std::string newFilePath = "");
 	~Network();
 
 	void saveNetwork(std::string newFilePath = "");
