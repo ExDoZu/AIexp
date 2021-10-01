@@ -34,10 +34,13 @@
   <ItemGroup>
     <Text Include="answers.txt" />
     <Text Include="data.txt" />
-    <Text Include="DOC.txt" />
+    <Text Include="TestData.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="weights.zai" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="NNetExplainPic.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

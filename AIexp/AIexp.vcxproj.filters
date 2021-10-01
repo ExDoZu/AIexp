@@ -46,13 +46,13 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="DOC.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
     <Text Include="data.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
     <Text Include="answers.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="TestData.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
   </ItemGroup>
@@ -60,5 +60,10 @@
     <None Include="weights.zai">
       <Filter>Файлы ресурсов</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="NNetExplainPic.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
   </ItemGroup>
 </Project>

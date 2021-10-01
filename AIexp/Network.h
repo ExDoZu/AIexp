@@ -7,6 +7,8 @@
 #include<Windows.h>
 #include<iostream>
 #include<fstream>
+#include <iomanip>
+
 class Network
 {
 private:
@@ -15,12 +17,12 @@ private:
 	int numberOfLayers;
 	int* numberOfNeurons;
 	double (*activationFunction)(double);
-	double (*activationFunctionPrime)(double);
+	double (*activationFunctionDeriv)(double);
 
 
 public:
-	Network(double(*activationFunc)(double), double(*activationFuncPrime)(double), std::string path);
-	Network(int numberOfLayers, int* numberOfNeurons, double(*activationFunc)(double), double(*activationFuncPrime)(double), std::string newFilePath = "");
+	Network(double(*activationFunc)(double), double(*activationFuncDeriv)(double), std::string path);
+	Network(int numberOfLayers, int* numberOfNeurons, double(*activationFunc)(double), double(*activationFuncDeriv)(double), std::string newFilePath = "");
 	~Network();
 
 	void saveNetwork(std::string newFilePath = "");
@@ -33,5 +35,8 @@ public:
 namespace activation_functions
 {
 	double sigmoid(double x);
-	double sigmoid_prime(double x);
+	double sigmoid_derivative(double x);
+	
+	double identity(double x);
+	double identityDeriv(double x);
 }
